@@ -14,7 +14,7 @@ class Dir {
 		$from_files = static::read(path('app').'language/'.$from);
 		foreach ($from_files as $file)
 		{
-			static::create(path('app').'language/'.$to.'/'.$file);
+			static::create(str_replace($from, $to, $file));
 		}
 
 		// Now any bundles
@@ -24,7 +24,7 @@ class Dir {
 			$bundle_files = static::read($bundle.$from);
 			foreach ($bundle_files as $file)
 			{
-				static::create($bundle.$to.'/'.$file);
+				static::create($file);
 			}
 		}
 	}
@@ -46,7 +46,7 @@ class Dir {
 
 		if ( ! file_exists($path))
 		{
-			$data = '<?php ';
+			$data = '<?php return array();';
 			\Laravel\File::put($path, $data);
 		}
 
@@ -100,7 +100,7 @@ class Dir {
 			// Ignore files specified
 			if ( ! in_array($file, $ignore))
 			{
-				$dir_contents[] = $file;
+				$dir_contents[] = $dir.'/'.$file;
 			}
 		}
 		return $dir_contents;

@@ -22,7 +22,27 @@
 			<div class="row-fluid">
 				<div class="span3">
 					<div class="well sidebar-nav">
-						Sidebar
+
+						<?php if (isset($files)): ?>
+
+						<ul class="nav nav-list">
+							<li class="nav-header">Missing Translations</li>
+							<?php foreach ($files['missing'] as $file): ?>
+								<?php echo '<li>'.HTML::link('language-builder?file='.basename($file).'&translate='.Input::get('translate'), basename($file, ".php")).'</li>'; ?>
+							<?php endforeach ?>
+						</ul>
+
+						<hr>
+
+						<ul class="nav nav-list">
+							<li class="nav-header">All Translation Files</li>
+							<?php foreach ($files['all'] as $file): ?>
+								<?php echo '<li>'.HTML::link('', basename($file, ".php")).'</li>'; ?>
+							<?php endforeach ?>
+						</ul>
+
+						<?php endif ?>
+
 					</div>
 				</div>
 				<div class="span9">
