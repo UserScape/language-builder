@@ -1,4 +1,4 @@
 <?php
 Laravel\Autoloader::map(array(
-	'Langbuilder\Language' => path('bundle').'language-builder/libraries/language.php',
+	'Langbuilder\Dir' => path('bundle').'language-builder/libraries/dir.php',
 ));
