@@ -7,20 +7,13 @@ Router::register('GET /language-builder', function()
 
 Router::register('POST /language-builder/build', function()
 {
-	$view = View::make('language-builder::layout');
-
 	if ($translate = Input::get('translate'))
 	{
-		Session::put('translate', $translate);
-
 		// First create any missing language files
 		Langbuilder\Dir::create_missing(Config::get('language-builder::builder.base_lang'), $translate);
-
-		// Now we do the comparisions
-		$view->files = Langbuilder\Compare::files(Config::get('language-builder::builder.base_lang'), $translate);
+		return Redirect::to('/language-builder/edit?translate='.$translate);
 	}
-
-	return $view;
+	return Redirect::to('/language-builder');
 });
 
 Router::register('GET /language-builder/edit', function()
@@ -35,10 +28,12 @@ Router::register('GET /language-builder/edit', function()
 	// Now we do the comparisions
 	$view->files = Langbuilder\Compare::files(Config::get('language-builder::builder.base_lang'), $translate);
 
-	$location = Input::get('location');
-	$name = Input::get('name');
-	$view->edit = Langbuilder\Utilities::get_files($name, $location, $translate);
-	$view->lang_file = $name;
+	if ($location = Input::get('location') and $name = Input::get('name'))
+	{
+		$view->edit = Langbuilder\Utilities::get_files($name, $location, $translate);
+		$view->lang_file = $name;
+	}
+
 	return $view;
 });
 

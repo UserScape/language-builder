@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Laravel Language Builder</title>
-		<?php echo HTML::style('bundles/language-builder/style.css'); ?>
+		<?php echo HTML::style('bundles/language-builder/css/style.css'); ?>
 	</head>
 	<body>
 		<!-- Header -->
@@ -21,7 +21,7 @@
 						<?php if (isset($files)): ?>
 
 						<ul class="nav nav-list">
-							<li class="nav-header">Missing Translations</li>
+							<li class="nav-header">Missing Translations <i class="icon-asterisk"></i></li>
 							<?php foreach ($files['app']['missing'] as $file): ?>
 								<?php echo '<li>'.Langbuilder\Utilities::link($file).'</li>'; ?>
 							<?php endforeach ?>
@@ -119,6 +119,10 @@
 				<?php else: ?>
 				<div class="span9">
 
+					<div class="callout">
+						<h2>Please select a file to translate</h2>
+					</div>
+
 				</div>
 				<?php endif ?>
           	</div>
@@ -131,6 +135,6 @@
       </footer>
 
       <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-      <?php echo HTML::script('bundles/language-builder/main.js'); ?>
+      <?php echo HTML::script('bundles/language-builder/js/main.js'); ?>
 	</body>
 </html>

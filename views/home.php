@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Laravel Language Builder</title>
-		<?php echo HTML::style('bundles/language-builder/style.css'); ?>
+		<?php echo HTML::style('bundles/language-builder/css/style.css'); ?>
 	</head>
 	<body id="home">
 		<div class="container">

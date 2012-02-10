@@ -2,7 +2,13 @@
 
 class Compare {
 
-
+	/**
+	 * Generate a list of files
+	 *
+	 * @param array $from
+	 * @param array $to
+	 * @return array
+	 */
 	public static function files($from, $to)
 	{
 		$files['app'] = static::app($from, $to);
@@ -10,9 +16,15 @@ class Compare {
 		return $files;
 	}
 
+	/**
+	 * Generate a list of app language files
+	 *
+	 * @param array $from
+	 * @param array $to
+	 * @return array
+	 */
 	protected static function app($from, $to)
 	{
-		// First start with the application dir
 		$path = path('app').'language/';
 		$from_files = Dir::read($path.$from);
 		$translated = Dir::read($path.$to);
@@ -40,7 +52,10 @@ class Compare {
 				// If all our keys match we need check our values aren't empty.
 				if (static::values($to_array))
 				{
-					$files['missing'][] = $translated[$key];
+					$files['missing'][] = array(
+						'location' => 'application',
+						'name' => str_replace(path('app'), '', basename($translated[$key], '.php'))
+					);
 				}
 			}
 		}
@@ -48,6 +63,13 @@ class Compare {
 		return $files;
 	}
 
+	/**
+	 * Generate a list of bundle language files
+	 *
+	 * @param array $from
+	 * @param array $to
+	 * @return array
+	 */
 	protected static function bundles($from, $to)
 	{
 		// First start with the application dir
@@ -92,11 +114,24 @@ class Compare {
 		return $files;
 	}
 
+	/**
+	 * Search array keys for differences
+	 *
+	 * @param array $from
+	 * @param array $to
+	 * @param bool
+	 */
 	protected static function keys($from, $to)
 	{
 		return count(array_diff_key($from, $to)) > 0;
 	}
 
+	/**
+	 * Search array values for empty strings
+	 *
+	 * @param array
+	 * @return bool
+	 */
 	protected static function values($array)
 	{
 		foreach ($array as $item)
