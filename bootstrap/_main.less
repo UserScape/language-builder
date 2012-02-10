@@ -9,6 +9,29 @@ h1, h2, h3, label {
 	font-family: HelveticaNeue-CondensedBold, Roboto-Condensed, sans-serif;
 }
 
+#home {
+	background: #2C373A;
+	.container {
+		width: 400px;
+		margin: 20px auto;
+		padding: 20px;
+		.border-radius(10px);
+		background: #ebebeb;
+	}
+	header {
+		background: #ebebeb;
+		border-bottom: none;
+		h1 {
+			text-align: center;
+			color: #111;
+		}
+	}
+	form {
+		text-align: center;
+		background-color: #ebebeb;
+	}
+
+}
 header {
 	background: #2C373A;
 	border-bottom: 1px solid #ccc;
@@ -31,6 +54,31 @@ header {
 	margin: 10px 0;
 }
 
+.border-left {
+	border-left: 3px solid #ccc;
+	padding-left: 7px;
+}
+.hide {
+	display: none;
+}
+.control-group {
+	padding: 10px 0 0 0;
+}
+.form-horizontal fieldset fieldset {
+	border: 1px solid #ebebeb;
+	margin: 10px 0;
+	legend {
+		font-size: 18px;
+		border: none;
+		margin: 0 0 0 40px;
+		width: 150px;
+		padding: 0 0 0 5px;
+	}
+	legend + .control-group {
+		margin-top: 0px;
+		-webkit-margin-top-collapse: separate;
+	}
+}
 footer {
 	text-align: center;
 }

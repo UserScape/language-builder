@@ -21,10 +21,10 @@ class Dir {
 		$from_bundles = static::bundles($from);
 		foreach ($from_bundles as $bundle)
 		{
-			$bundle_files = static::read($bundle.$from);
+			$bundle_files = static::read($bundle['path'].$from);
 			foreach ($bundle_files as $file)
 			{
-				static::create($file);
+				static::create(str_replace($from, $to, $file));
 			}
 		}
 	}
@@ -54,7 +54,7 @@ class Dir {
 	}
 
 	/**
-	 * Load all the bundles and get their paths
+	 * Load all the bundles with language files and get their paths
 	 *
 	 * @param string $lang
 	 * @return array
@@ -64,13 +64,16 @@ class Dir {
 		$folders = array();
 
 		// Get the bundle languages
-		if ($bundles = \Laravel\Bundle::names())
+		if ($bundles = \Laravel\Bundle::detect(path('bundle')))
 		{
 			foreach ($bundles as $bundle)
 			{
-				if (is_dir(\Laravel\Bundle::path($bundle).'language/'.$lang))
+				if (is_dir($bundle['location'].'language/'.$lang))
 				{
-					$folders[] = \Laravel\Bundle::path($bundle).'language/';
+					$folders[] = array(
+						'path' => $bundle['location'].'language/',
+						'name' => $bundle
+					);
 				}
 			}
 		}
