@@ -1,6 +1,6 @@
 $(function() {
 
 	$('#toggle').click(function(){
-		$('.control-group.hide').toggleClass('show', 'hide');
+		$('fieldset.hide').toggleClass('show', 'hide');
 	});
 });
