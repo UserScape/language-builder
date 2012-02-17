@@ -1,11 +1,10 @@
 <?php
-
-Router::register('GET /language-builder', function()
+Route::get('language-builder', function()
 {
 	return View::make('language-builder::home');
 });
 
-Router::register('POST /language-builder/build', function()
+Route::post('language-builder/build', function()
 {
 	if ($translate = Input::get('translate'))
 	{
@@ -16,11 +15,11 @@ Router::register('POST /language-builder/build', function()
 	return Redirect::to('/language-builder');
 });
 
-Router::register('GET /language-builder/edit', function()
+Route::get('language-builder/edit', function()
 {
 	$view = View::make('language-builder::layout');
 
-	if ( ! $translate = Session::get('translate'))
+	if ( ! $translate = Input::get('translate'))
 	{
 		return Redirect::to('/language-builder');
 	}
@@ -37,7 +36,7 @@ Router::register('GET /language-builder/edit', function()
 	return $view;
 });
 
-Router::register('POST /language-builder/edit', function()
+Route::post('language-builder/edit', function()
 {
 	$location = Input::get('location');
 	$name = Input::get('name');

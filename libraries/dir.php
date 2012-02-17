@@ -64,7 +64,7 @@ class Dir {
 		$folders = array();
 
 		// Get the bundle languages
-		if ($bundles = \Laravel\Bundle::detect(path('bundle')))
+		if ($bundles = \Laravel\Bundle::all())
 		{
 			foreach ($bundles as $bundle)
 			{
