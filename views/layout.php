@@ -25,21 +25,28 @@
 							<?php foreach ($files['app']['missing'] as $file): ?>
 								<?php echo '<li>'.Langbuilder\Utilities::link($file).'</li>'; ?>
 							<?php endforeach ?>
-							<?php foreach ($files['bundles']['missing'] as $file): ?>
-								<?php echo '<li>'.Langbuilder\Utilities::link($file).'</li>'; ?>
-							<?php endforeach ?>
+							<?php if (isset($files['bundles']['missing'])): ?>
+								<?php foreach ($files['bundles']['missing'] as $file): ?>
+									<?php echo '<li>'.Langbuilder\Utilities::link($file).'</li>'; ?>
+								<?php endforeach ?>
+							<?php endif ?>
 						</ul>
 
 						<hr>
 
 						<ul class="nav nav-list">
 							<li class="nav-header">All Translation Files</li>
-							<?php foreach ($files['app']['all'] as $file): ?>
-								<?php echo '<li>'.Langbuilder\Utilities::link($file).'</li>'; ?>
-							<?php endforeach ?>
-							<?php foreach ($files['bundles']['all'] as $file): ?>
-								<?php echo '<li>'.Langbuilder\Utilities::link($file).'</li>'; ?>
-							<?php endforeach ?>
+							<?php if (isset($files['app']['all'])): ?>
+								<?php foreach ($files['app']['all'] as $file): ?>
+									<?php echo '<li>'.Langbuilder\Utilities::link($file).'</li>'; ?>
+								<?php endforeach ?>
+							<?php endif ?>
+
+							<?php if (isset($files['bundles']['all'])): ?>
+								<?php foreach ($files['bundles']['all'] as $file): ?>
+									<?php echo '<li>'.Langbuilder\Utilities::link($file).'</li>'; ?>
+								<?php endforeach ?>
+							<?php endif; ?>
 						</ul>
 
 						<?php endif ?>
