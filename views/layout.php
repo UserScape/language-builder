@@ -25,21 +25,28 @@
 							<?php foreach ($files['app']['missing'] as $file): ?>
 								<?php echo '<li>'.Langbuilder\Utilities::link($file).'</li>'; ?>
 							<?php endforeach ?>
-							<?php foreach ($files['bundles']['missing'] as $file): ?>
-								<?php echo '<li>'.Langbuilder\Utilities::link($file).'</li>'; ?>
-							<?php endforeach ?>
+							<?php if (isset($files['bundles']['missing'])): ?>
+								<?php foreach ($files['bundles']['missing'] as $file): ?>
+									<?php echo '<li>'.Langbuilder\Utilities::link($file).'</li>'; ?>
+								<?php endforeach ?>
+							<?php endif ?>
 						</ul>
 
 						<hr>
 
 						<ul class="nav nav-list">
 							<li class="nav-header">All Translation Files</li>
-							<?php foreach ($files['app']['all'] as $file): ?>
-								<?php echo '<li>'.Langbuilder\Utilities::link($file).'</li>'; ?>
-							<?php endforeach ?>
-							<?php foreach ($files['bundles']['all'] as $file): ?>
-								<?php echo '<li>'.Langbuilder\Utilities::link($file).'</li>'; ?>
-							<?php endforeach ?>
+							<?php if (isset($files['app']['all'])): ?>
+								<?php foreach ($files['app']['all'] as $file): ?>
+									<?php echo '<li>'.Langbuilder\Utilities::link($file).'</li>'; ?>
+								<?php endforeach ?>
+							<?php endif ?>
+
+							<?php if (isset($files['bundles']['all'])): ?>
+								<?php foreach ($files['bundles']['all'] as $file): ?>
+									<?php echo '<li>'.Langbuilder\Utilities::link($file).'</li>'; ?>
+								<?php endforeach ?>
+							<?php endif; ?>
 						</ul>
 
 						<?php endif ?>
@@ -48,71 +55,64 @@
 				</div>
 
 				<?php if (isset($edit)): ?>
-					<div class="span4">
-						<form class="form-horizontal">
-							<fieldset>
-								<legend>Base File (For Comparision) <a href="#" id="toggle">Toggle</a></legend>
-								<?php foreach ($edit['from'] as $key => $string): ?>
-									<?php if (is_array($string) && ! empty($string)): ?>
-
-										<?php foreach ($string as $sub_key => $sub_value): ?>
-											<div class="control-group<?php echo (isset($edit['to'][$key][$sub_key]) && $edit['to'][$key][$sub_key] != '') ? ' hide' : ''; ?>">
-												<label class="control-label" for="<?php echo $sub_key ?>"><?php echo $lang_file.'.'.$key.'.'.$sub_key ?></label>
-												<div class="controls">
-													<input type="text" name="lang[<?php echo $key ?>][<?php echo $sub_key ?>]" class="input-xlarge" id="<?php echo $sub_key ?>" value="<?php echo $sub_value ?>">
-												</div>
-											</div>
-										<?php endforeach ?>
-
-									<?php elseif ( ! empty($string)): ?>
-
-									<div class="control-group<?php echo (isset($edit['to'][$key]) && $edit['to'][$key] != '') ? ' hide' : ''; ?>">
-										<label class="control-label" for="<?php echo $key ?>"><?php echo $lang_file.'.'.$key ?></label>
-										<div class="controls">
-											<input type="text" name="lang[<?php echo $key ?>]" class="input-xlarge" id="<?php echo $key ?>" value="<?php echo $string ?>">
-										</div>
-									</div>
-									<?php endif ?>
-
-								<?php endforeach ?>
-
-							</fieldset>
-						</form>
-					</div>
-					<div class="span4">
-						<?php echo Form::open('language-builder/edit', 'POST', array('class' => 'form-horizontal border-left')); ?>
+					<div class="span8">
+						<a href="#" id="toggle">Toggle</a>
+						<?php echo Form::open('language-builder/edit', 'POST', array('class' => 'form-horizontal')); ?>
 							<?php echo Form::hidden('location', Input::get('location')) ?>
 							<?php echo Form::hidden('name', Input::get('name')) ?>
 							<?php echo Form::hidden('translate', Input::get('translate')) ?>
-							<fieldset>
-								<legend>Translated File</legend>
+
+
 								<?php foreach ($edit['from'] as $key => $string): ?>
+
 									<?php if (is_array($string) && ! empty($string)): ?>
 
 										<?php foreach ($string as $sub_key => $sub_value): ?>
-											<div class="control-group<?php echo (isset($edit['to'][$key][$sub_key]) && $edit['to'][$key][$sub_key] != '') ? ' hide' : ''; ?>">
-												<label class="control-label" for="<?php echo $sub_key ?>"><?php echo $lang_file.'.'.$key.'.'.$sub_key ?></label>
-												<div class="controls">
-													<input type="text" name="lang[<?php echo $key ?>][<?php echo $sub_key ?>]" class="input-xlarge" id="<?php echo $sub_key ?>" value="<?php echo $edit['to'][$key][$sub_key] ?>">
+											<fieldset class="<?php echo (isset($edit['to'][$key][$sub_key]) && $edit['to'][$key][$sub_key] != '') ? ' hide' : ''; ?>">
+												<legend><?php echo $lang_file.'.'.$key.'.'.$sub_key ?></legend>
+
+												<div class="control-group<?php echo (isset($edit['to'][$key][$sub_key]) && $edit['to'][$key][$sub_key] != '') ? ' hide' : ''; ?>">
+													<label><?php echo Config::get('language-builder::builder.base_lang') ?></label>
+													<div class="controls">
+														<input type="text" name="placeholder" class="span6 disabled" value="<?php echo $edit['from'][$key][$sub_key] ?>">
+													</div>
 												</div>
-											</div>
+
+												<div class="control-group<?php echo (isset($edit['to'][$key][$sub_key]) && $edit['to'][$key][$sub_key] != '') ? ' hide' : ''; ?>">
+													<label class="control-label" for="<?php echo $key ?>"><?php echo Input::get('translate') ?></label>
+													<div class="controls">
+														<input type="text" name="lang[<?php echo $key ?>][<?php echo $sub_key ?>]" class="span6" id="<?php echo $sub_key ?>" value="<?php echo $edit['to'][$key][$sub_key] ?>">
+													</div>
+												</div>
+											</fieldset>
 										<?php endforeach ?>
 
 									<?php elseif ( ! empty($string)): ?>
-									<div class="control-group<?php echo (isset($edit['to'][$key]) && $edit['to'][$key] != '') ? ' hide' : ''; ?>">
-										<label class="control-label" for="<?php echo $key ?>"><?php echo $lang_file.'.'.$key ?></label>
-										<div class="controls">
-											<input type="text" name="lang[<?php echo $key ?>]" class="input-xlarge" id="<?php echo $key ?>" value="<?php echo $edit['to'][$key] ?>">
+									<fieldset class="<?php echo (isset($edit['to'][$key]) && $edit['to'][$key] != '') ? ' hide' : ''; ?>">
+										<legend><?php echo $lang_file.'.'.$key ?></legend>
+
+										<div class="control-group">
+											<label><?php echo Config::get('language-builder::builder.base_lang') ?></label>
+											<div class="controls">
+												<input class="disabled span6" type="text" name="placeholder" value="<?php echo $string ?>">
+											</div>
 										</div>
-									</div>
+										<div class="control-group">
+											<label class="control-label" for="<?php echo $key ?>"><?php echo Input::get('translate') ?></label>
+											<div class="controls">
+												<input type="text" name="lang[<?php echo $key ?>]" class="span6" id="<?php echo $key ?>" value="<?php echo $edit['to'][$key] ?>">
+											</div>
+										</div>
+
+									</fieldset>
 									<?php endif ?>
 
 								<?php endforeach ?>
 
-								<div class="form-actions">
-									<button type="submit" class="btn btn-primary">Save changes</button>
-								</div>
 							</fieldset>
+							<div class="form-actions">
+								<button type="submit" class="btn btn-primary">Save changes</button>
+							</div>
 						</form>
 					</div>
 
