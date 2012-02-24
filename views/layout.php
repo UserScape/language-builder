@@ -56,7 +56,7 @@
 
 				<?php if (isset($edit)): ?>
 					<div class="span8">
-						<a href="#" id="toggle">Toggle</a>
+						<a href="#" class="btn pull-right" id="toggle"><i class="plus"></i> Toggle Translated</a>
 						<?php echo Form::open('language-builder/edit', 'POST', array('class' => 'form-horizontal')); ?>
 							<?php echo Form::hidden('location', Input::get('location')) ?>
 							<?php echo Form::hidden('name', Input::get('name')) ?>
