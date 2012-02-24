@@ -21,7 +21,7 @@
 						<?php if (isset($files)): ?>
 
 						<ul class="nav nav-list">
-							<li class="nav-header">Missing Translations <i class="icon-asterisk"></i></li>
+							<li class="nav-header"><i class="icon-asterisk"></i> Missing Translations</li>
 							<?php foreach ($files['app']['missing'] as $file): ?>
 								<?php echo '<li>'.Langbuilder\Utilities::link($file).'</li>'; ?>
 							<?php endforeach ?>
@@ -56,7 +56,7 @@
 
 				<?php if (isset($edit)): ?>
 					<div class="span8">
-						<a href="#" class="btn pull-right" id="toggle"><i class="plus"></i> Toggle Translated</a>
+						<a href="#" class="btn pull-right" id="toggle"><i class="icon-folder-close"></i> Toggle Translated</a>
 						<?php echo Form::open('language-builder/edit', 'POST', array('class' => 'form-horizontal')); ?>
 							<?php echo Form::hidden('location', Input::get('location')) ?>
 							<?php echo Form::hidden('name', Input::get('name')) ?>
@@ -72,7 +72,7 @@
 												<legend><?php echo $lang_file.'.'.$key.'.'.$sub_key ?></legend>
 
 												<div class="control-group<?php echo (isset($edit['to'][$key][$sub_key]) && $edit['to'][$key][$sub_key] != '') ? ' hide' : ''; ?>">
-													<label><?php echo Config::get('language-builder::builder.base_lang') ?></label>
+													<label class="control-label"><?php echo Config::get('language-builder::builder.base_lang') ?></label>
 													<div class="controls">
 														<input type="text" name="placeholder" class="span7 disabled" value="<?php echo $edit['from'][$key][$sub_key] ?>">
 													</div>
@@ -92,7 +92,7 @@
 										<legend><?php echo $lang_file.'.'.$key ?></legend>
 
 										<div class="control-group">
-											<label><?php echo Config::get('language-builder::builder.base_lang') ?></label>
+											<label class="control-label"><?php echo Config::get('language-builder::builder.base_lang') ?></label>
 											<div class="controls">
 												<input class="disabled span7" type="text" name="placeholder" value="<?php echo $string ?>">
 											</div>

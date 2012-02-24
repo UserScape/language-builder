@@ -1,6 +1,7 @@
 $(function() {
 
 	$('#toggle').click(function(){
-		$('fieldset.hide').toggleClass('show', 'hide');
+		$('fieldset.hide').toggle("slow");
+		$('#toggle i').toggleClass('icon-folder-open');
 	});
 });
