@@ -74,6 +74,7 @@ class Compare {
 	{
 		// First start with the application dir
 		$from_files = Dir::bundles($from);
+		$files = array();
 
 		foreach ($from_files as $bundle)
 		{

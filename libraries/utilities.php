@@ -78,6 +78,7 @@ class Utilities {
 	 */
 	protected static function build_array($lang, $depth = 1)
 	{
+		$out = '';
 		foreach ($lang as $key => $value)
 		{
 			if (is_array($value))
