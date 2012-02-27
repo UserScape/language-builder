@@ -68,7 +68,7 @@
 									<?php if (is_array($string) && ! empty($string)): ?>
 
 										<?php foreach ($string as $sub_key => $sub_value): ?>
-											<fieldset class="<?php echo (isset($edit['to'][$key][$sub_key]) && $edit['to'][$key][$sub_key] != '') ? ' hide' : ''; ?>">
+											<fieldset class="<?php echo (isset($edit['to'][$key][$sub_key]) && $edit['to'][$key][$sub_key] != '') ? ' hide' : 'show'; ?>">
 												<legend><?php echo $lang_file.'.'.$key.'.'.$sub_key ?></legend>
 
 												<div class="control-group<?php echo (isset($edit['to'][$key][$sub_key]) && $edit['to'][$key][$sub_key] != '') ? ' hide' : ''; ?>">
@@ -89,7 +89,7 @@
 
 									<?php elseif ( ! empty($string)): ?>
 
-									<fieldset class="<?php echo (isset($edit['to'][$key]) && $edit['to'][$key] != '') ? ' hide' : ''; ?>">
+									<fieldset class="<?php echo (isset($edit['to'][$key]) && $edit['to'][$key] != '') ? ' hide' : 'show'; ?>">
 										<legend><?php echo $lang_file.'.'.$key ?></legend>
 
 										<div class="control-group">
