@@ -45,11 +45,11 @@ class Utilities {
 		else
 		{
 			$querystring = array(
-				'location' => $file['location']['name'],
+				'location' => $file['location']['location'],
 				'name' => $file['name'],
 				'translate' => \Laravel\Input::get('translate')
 			);
-			$text = $file['location']['name'].'/'.$file['name'];
+			$text = $file['location']['location'].'/'.$file['name'];
 		}
 
 		$querystring = http_build_query($querystring);

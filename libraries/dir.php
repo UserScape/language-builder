@@ -35,19 +35,21 @@ class Dir {
 	 * @param string $path
 	 * @return bool
 	 */
-	public static function create($path)
+	public static function create($full_path)
 	{
-		$dir = str_replace(basename($path), '', $path);
+		$dir = str_replace(basename($full_path), '', $full_path);
 
 		if ( ! is_dir($dir))
 		{
+			var_dump($dir);die;
 			static::make($dir);
 		}
 
-		if ( ! file_exists($path))
+		if ( ! file_exists($full_path))
 		{
+			var_dump('here');die;
 			$data = '<?php return array();';
-			\Laravel\File::put($path, $data);
+			\Laravel\File::put($full_path, $data);
 		}
 
 		return true;
@@ -68,10 +70,10 @@ class Dir {
 		{
 			foreach ($bundles as $bundle)
 			{
-				if (is_dir($bundle['location'].'language/'.$lang))
+				if (is_dir(\Laravel\Bundle::path($bundle['location']).'/language/'.$lang))
 				{
 					$folders[] = array(
-						'path' => $bundle['location'].'language/',
+						'path' => \Laravel\Bundle::path($bundle['location']).'language/',
 						'name' => $bundle
 					);
 				}

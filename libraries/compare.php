@@ -88,7 +88,7 @@ class Compare {
 
 				$files['all'][] = array(
 					'location' => $bundle['name'],
-					'name' => str_replace(path('bundles'), '', basename($to_file, '.php'))
+					'name' => str_replace(path('bundle'), '', basename($to_file, '.php'))
 				);
 
 				// Do all our keys match?
@@ -96,7 +96,7 @@ class Compare {
 				{
 					$files['missing'][] = array(
 						'location' => $bundle['name'],
-						'name' => str_replace(path('bundles'), '', basename($to_file, '.php'))
+						'name' => str_replace(path('bundle'), '', basename($to_file, '.php'))
 					);
 				}
 				else
@@ -106,7 +106,7 @@ class Compare {
 					{
 						$files['missing'][] = array(
 							'location' => $bundle['name'],
-							'name' => str_replace(path('bundles'), '', basename($to_file, '.php'))
+							'name' => str_replace(path('bundle'), '', basename($to_file, '.php'))
 						);
 					}
 				}
