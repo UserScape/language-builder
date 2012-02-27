@@ -41,13 +41,11 @@ class Dir {
 
 		if ( ! is_dir($dir))
 		{
-			var_dump($dir);die;
 			static::make($dir);
 		}
 
 		if ( ! file_exists($full_path))
 		{
-			var_dump('here');die;
 			$data = '<?php return array();';
 			\Laravel\File::put($full_path, $data);
 		}

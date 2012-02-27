@@ -29,7 +29,7 @@ Now visit yoursite.com/index.php/language-builder and you should be prompted to 
 You should open the config/builder.php to adjust settings to your individual needs. Below is a list of settings:
 
 * `base_lang` - The base language used as a reference and the master.
-* `languages` - An array of languages that can be translated to.
+* `languages` - An array of languages that can be translated to. The key is the folder name.
 
 ### Contributing
 

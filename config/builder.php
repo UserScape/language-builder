@@ -23,7 +23,6 @@ return array(
 	|
 	*/
 	'languages' => array(
-		''   => 'Please Select',
 		'sp' => 'Spanish',
 		'it' => 'Italian'
 	)

@@ -1,10 +1,20 @@
 <?php
-Route::get('language-builder', function()
+/**
+ * Default route
+ */
+Route::get('(:bundle)', function()
 {
-	return View::make('language-builder::home');
+	$languages = array_merge(
+		array('' => __('language-builder::builder.please_select')),
+		Config::get('language-builder::builder.languages')
+	);
+	return View::make('language-builder::home')->with('languages', $languages);
 });
 
-Route::post('language-builder/build', function()
+/**
+ * Build any missingn any files and redirect
+ */
+Route::post('(:bundle)/build', function()
 {
 	if ($translate = Input::get('translate'))
 	{
@@ -15,7 +25,10 @@ Route::post('language-builder/build', function()
 	return Redirect::to('/language-builder');
 });
 
-Route::get('language-builder/edit', function()
+/**
+ * Edit a language file.
+ */
+Route::get('(:bundle)/edit', function()
 {
 	$view = View::make('language-builder::layout');
 
@@ -36,7 +49,10 @@ Route::get('language-builder/edit', function()
 	return $view;
 });
 
-Route::post('language-builder/edit', function()
+/**
+ * Handle the posted edit form.
+ */
+Route::post('(:bundle)/edit', function()
 {
 	$location = Input::get('location');
 	$name = Input::get('name');

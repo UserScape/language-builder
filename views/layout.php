@@ -2,14 +2,14 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Laravel Language Builder</title>
+		<title><?php echo __('language-builder::builder.title') ?></title>
 		<?php echo HTML::style('bundles/language-builder/css/style.css'); ?>
 	</head>
 	<body>
 		<!-- Header -->
 		<header class="container-fluid">
 			<div class="row-fluid">
-				<h1 class="span12">Laravel Language Builder</h1>
+				<h1 class="span12"><?php echo __('language-builder::builder.title') ?></h1>
 			</div>
 		</header>
 
@@ -21,7 +21,7 @@
 						<?php if (isset($files)): ?>
 
 						<ul class="nav nav-list">
-							<li class="nav-header"><i class="icon-asterisk"></i> Missing Translations</li>
+							<li class="nav-header"><i class="icon-asterisk"></i> <?php echo __('language-builder::builder.missing_translations') ?></li>
 							<?php foreach ($files['app']['missing'] as $file): ?>
 								<?php echo '<li>'.Langbuilder\Utilities::link($file).'</li>'; ?>
 							<?php endforeach ?>
@@ -35,7 +35,7 @@
 						<hr>
 
 						<ul class="nav nav-list">
-							<li class="nav-header">All Translation Files</li>
+							<li class="nav-header"><?php echo __('language-builder::builder.all_translation_files') ?></li>
 							<?php if (isset($files['app']['all'])): ?>
 								<?php foreach ($files['app']['all'] as $file): ?>
 									<?php echo '<li>'.Langbuilder\Utilities::link($file).'</li>'; ?>
@@ -56,7 +56,7 @@
 
 				<?php if (isset($edit)): ?>
 					<div class="span8">
-						<a href="#" class="btn pull-right" id="toggle"><i class="icon-folder-close"></i> Toggle Translated</a>
+						<a href="#" class="btn pull-right" id="toggle"><i class="icon-folder-close"></i> <?php echo __('language-builder::builder.toggle_translated') ?></a>
 						<?php echo Form::open('language-builder/edit', 'POST', array('class' => 'form-horizontal')); ?>
 							<?php echo Form::hidden('location', Input::get('location')) ?>
 							<?php echo Form::hidden('name', Input::get('name')) ?>
@@ -112,7 +112,7 @@
 
 							</fieldset>
 							<div class="form-actions">
-								<button type="submit" class="btn btn-primary">Save changes</button>
+								<button type="submit" class="btn btn-primary"><?php echo __('language-builder::builder.save_changes') ?></button>
 							</div>
 						</form>
 					</div>
@@ -121,7 +121,7 @@
 				<div class="span9">
 
 					<div class="callout">
-						<h2>Please select a file to translate</h2>
+						<h2><?php echo __('language-builder::builder.select_file'); ?></h2>
 					</div>
 
 				</div>
