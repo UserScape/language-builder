@@ -1,5 +1,9 @@
 ## Installation
 
+**Artisan**
+
+	php artisan bundle:install language-builder
+
 **Git Submodule**
 
 	git submodule add git@github.com:UserScape/language-builder.git bundles/language-builder
