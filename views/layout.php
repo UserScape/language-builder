@@ -74,14 +74,14 @@
 												<div class="control-group<?php echo (isset($edit['to'][$key][$sub_key]) && $edit['to'][$key][$sub_key] != '') ? ' hide' : ''; ?>">
 													<label class="control-label"><?php echo Config::get('language-builder::builder.base_lang') ?></label>
 													<div class="controls">
-														<input type="text" name="placeholder" class="span7 disabled" value="<?php echo $edit['from'][$key][$sub_key] ?>">
+														<textarea name="placeholder" class="span7 disabled"><?php echo $edit['from'][$key][$sub_key] ?></textarea>
 													</div>
 												</div>
 
 												<div class="control-group<?php echo (isset($edit['to'][$key][$sub_key]) && $edit['to'][$key][$sub_key] != '') ? ' hide' : ''; ?>">
 													<label class="control-label" for="<?php echo $key ?>"><?php echo Input::get('translate') ?></label>
 													<div class="controls">
-														<input type="text" name="lang[<?php echo $key ?>][<?php echo $sub_key ?>]" class="span7" id="<?php echo $sub_key ?>" value="<?php echo isset($edit['to'][$key][$sub_key]) ? $edit['to'][$key][$sub_key] : '' ?>">
+														<textarea name="lang[<?php echo $key ?>][<?php echo $sub_key ?>]" class="span7" id="<?php echo $sub_key ?>"><?php echo isset($edit['to'][$key][$sub_key]) ? $edit['to'][$key][$sub_key] : '' ?></textarea>
 													</div>
 												</div>
 											</fieldset>
@@ -95,13 +95,13 @@
 										<div class="control-group">
 											<label class="control-label"><?php echo Config::get('language-builder::builder.base_lang') ?></label>
 											<div class="controls">
-												<input class="disabled span7" type="text" name="placeholder" value="<?php echo $string ?>">
+												<textarea class="disabled span7" name="placeholder"><?php echo $string ?></textarea>
 											</div>
 										</div>
 										<div class="control-group">
 											<label class="control-label" for="<?php echo $key ?>"><?php echo Input::get('translate') ?></label>
 											<div class="controls">
-												<input type="text" name="lang[<?php echo $key ?>]" class="span7" id="<?php echo $key ?>" value="<?php echo isset($edit['to'][$key]) ? $edit['to'][$key] : ''; ?>">
+												<textarea name="lang[<?php echo $key ?>]" class="span7" id="<?php echo $key ?>"><?php echo isset($edit['to'][$key]) ? $edit['to'][$key] : ''; ?></textarea>
 											</div>
 										</div>
 
