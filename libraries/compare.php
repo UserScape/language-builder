@@ -25,7 +25,7 @@ class Compare {
 	 */
 	protected static function app($from, $to)
 	{
-		$path = path('app').'language/';
+		$path = path('app').'language'.DS;
 		$from_files = Dir::read($path.$from);
 		$translated = Dir::read($path.$to);
 
