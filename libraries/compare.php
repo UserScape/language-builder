@@ -11,138 +11,104 @@ class Compare {
 	 */
 	public static function files($from, $to)
 	{
-		$files['app'] = static::app($from, $to);
-		$files['bundles'] = static::bundles($from, $to);
+		$files['app'] = static::get_files($from, $to);
+		$files['bundles'] = array();
+
+		$bundle_dirs = Dir::get_bundles_with_language($from);
+		foreach ($bundle_dirs as $bundle)
+		{
+			$files['bundles'] = array_merge_recursive($files['bundles'], static::get_files($from, $to, $bundle));
+		}
+		
 		return $files;
 	}
 
 	/**
-	 * Generate a list of app language files
+	 * Generate a list of language files
 	 *
 	 * @param array $from
 	 * @param array $to
 	 * @return array
 	 */
-	protected static function app($from, $to)
+	protected static function get_files($from, $to, $bundle = null)
 	{
-		$path = path('app').'language/';
+		$base_path = ($bundle) ? $bundle['path'] : path('app');
+		$path = $base_path . 'language' . DS;
+		$app_name= ($bundle) ? $bundle['name'] : 'application';
+
 		$from_files = Dir::read($path.$from);
-		$translated = Dir::read($path.$to);
+		$translated = (Dir::check_exists_or_create($path.$to)) ? Dir::read($path.$to) : array();
 
 		foreach ($from_files as $key => $file)
 		{
 			$from_array = require $file;
-			$to_array = (is_file($translated[$key])) ? require $translated[$key] : array();
+			if (!array_key_exists($key, $translated))
+			{
+				$file_to = $path.$to.DS.$key;
+				if (!is_file($file_to))
+				{
+					if (!Dir::create($file_to))
+					{
+						throw new Exception("Error creating file ".$file_to, 1);
+					}
+					$translated[$key]=$file_to;
+				}
+			}
 
+			$to_array =  require $translated[$key];
+			$to_name = str_replace($base_path, '', basename($translated[$key], '.php'));
+			$from_health = static::lang_rows($from_array);
+			$to_health = static::lang_rows($to_array);
 			$files['all'][] = array(
-				'location' => 'application',
-				'name' => str_replace(path('app'), '', basename($translated[$key], '.php'))
+				'location' => $app_name,
+				'name' => $to_name,
 			);
-
-			// Do all our keys match?
-			if (static::keys($from_array, $to_array))
+			if ($from_health != $to_health)
 			{
 				$files['missing'][] = array(
-					'location' => 'application',
-					'name' => str_replace(path('app'), '', basename($translated[$key], '.php'))
+					'location' => $app_name,
+					'name' => $to_name,
+					'status' => static::lang_health($from_health,$to_health)
 				);
-			}
-			else
-			{
-				// If all our keys match we need check our values aren't empty.
-				if (static::values($to_array))
-				{
-					$files['missing'][] = array(
-						'location' => 'application',
-						'name' => str_replace(path('app'), '', basename($translated[$key], '.php'))
-					);
-				}
 			}
 		}
 
 		return $files;
-	}
-
-	/**
-	 * Generate a list of bundle language files
-	 *
-	 * @param array $from
-	 * @param array $to
-	 * @return array
-	 */
-	protected static function bundles($from, $to)
-	{
-		// First start with the application dir
-		$from_files = Dir::bundles($from);
-		$files = array();
-
-		foreach ($from_files as $bundle)
-		{
-			$bundle_files = Dir::read($bundle['path'].$from);
-
-			foreach ($bundle_files as $key => $file)
-			{
-				$from_array = require $file;
-				$to_file = str_replace($from, $to, $file);
-				$to_array = (is_file($to_file)) ? require $to_file : array();
-
-				$files['all'][] = array(
-					'location' => $bundle['name'],
-					'name' => str_replace(path('bundle'), '', basename($to_file, '.php'))
-				);
-
-				// Do all our keys match?
-				if (static::keys($from_array, $to_array))
-				{
-					$files['missing'][] = array(
-						'location' => $bundle['name'],
-						'name' => str_replace(path('bundle'), '', basename($to_file, '.php'))
-					);
-				}
-				else
-				{
-					// If all our keys match we need check our values aren't empty.
-					if (static::values($to_array))
-					{
-						$files['missing'][] = array(
-							'location' => $bundle['name'],
-							'name' => str_replace(path('bundle'), '', basename($to_file, '.php'))
-						);
-					}
-				}
-			}
-		}
-		return $files;
-	}
-
-	/**
-	 * Search array keys for differences
-	 *
-	 * @param array $from
-	 * @param array $to
-	 * @param bool
-	 */
-	protected static function keys($from, $to)
-	{
-		return count(array_diff_key($from, $to)) > 0;
 	}
 
 	/**
 	 * Search array values for empty strings
 	 *
 	 * @param array
-	 * @return bool
+	 * @return int
 	 */
-	protected static function values($array)
+	protected static function lang_rows($array)
 	{
+		$rows = 0;
 		foreach ($array as $item)
 		{
 			if (is_array($item))
 			{
-				return static::values($item);
+				$rows += static::lang_rows($item);
 			}
-			if ($item == '') return true;
+			else
+			{
+				$rows += empty($item)? 0 : 1;
+			}
 		}
-		return false;
+		return $rows;
+	}
+
+	/**
+	 * Search array values for empty strings
+	 *
+	 * @param int $from
+	 * @param int $to
+	 * @return int
+	 */
+	protected static function lang_health($from, $to)
+	{
+		if ($from < 1) return 0;
+		return round(($to*100/$from), 1, PHP_ROUND_HALF_DOWN);
 	}
 }

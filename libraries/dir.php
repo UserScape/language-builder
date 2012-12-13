@@ -11,7 +11,7 @@ class Dir {
 	public static function create_missing($from, $to)
 	{
 		// First start with the application dir
-		$from_files = static::read(path('app').'language/'.$from);
+		$from_files = static::read(path('app').'language'.DS.$from);
 		foreach ($from_files as $file)
 		{
 			static::create(str_replace($from, $to, $file));
@@ -59,26 +59,45 @@ class Dir {
 	 * @param string $lang
 	 * @return array
 	 */
-	public static function bundles($lang = null)
+	public static function get_bundles_with_language($lang = null)
 	{
 		$folders = array();
 
 		// Get the bundle languages
 		if ($bundles = \Laravel\Bundle::all())
 		{
-			foreach ($bundles as $bundle)
+			foreach ($bundles as $name => $bundle)
 			{
-				if (is_dir(\Laravel\Bundle::path($bundle['location']).'/language/'.$lang))
+				$bundle_path=\Laravel\Bundle::path($bundle['location']);
+				$has_base_language = $bundle_path.'language'.DS.$lang;
+				if (is_dir($has_base_language))
 				{
 					$folders[] = array(
-						'path' => \Laravel\Bundle::path($bundle['location']).'language/',
-						'name' => $bundle
+						'path' => $bundle_path,
+						'name' => $name
 					);
 				}
 			}
 		}
 
 		return $folders;
+	}
+
+	/**
+	 * Check if the directory exists, if not it creates it
+	 *
+	 * @access public
+	 * @static
+	 * @param  string $dir  full path to directory
+	 * @return bool  FALSE on failure, TRUE on success
+	 */
+	static public function check_exists_or_create($dir)
+	{
+		if (!file_exists($dir) || !is_dir($dir))
+		{
+			return static::make($dir);
+		}
+		return true;
 	}
 
 	/**
@@ -92,6 +111,11 @@ class Dir {
 	 */
 	static public function read($dir, $ignore = array())
 	{
+		if (!is_dir($dir))
+		{
+			return false;
+		}
+
 		$files = scandir($dir);
 		$dir_contents = array();
 		foreach ($files as $file)
@@ -103,7 +127,7 @@ class Dir {
 			// Ignore files specified
 			if ( ! in_array($file, $ignore))
 			{
-				$dir_contents[] = $dir.'/'.$file;
+				$dir_contents[basename($file)] = $dir.DS.$file;
 			}
 		}
 		return $dir_contents;
@@ -120,8 +144,8 @@ class Dir {
 	public static function make($dir, $permission = 0755, $nested = false)
 	{
 		// Remove links
-		$dir = str_replace('../', '', $dir);
-		$dir = str_replace('./', '', $dir);
+		$dir = str_replace('..'.DS, '', $dir);
+		$dir = str_replace('.'.DS, '', $dir);
 
 		// Attempt to make the directory
 		if ( ! mkdir($dir, $permission, $nested))
