@@ -17,6 +17,7 @@ class Compare {
 		$bundle_dirs = Dir::get_bundles_with_language($from);
 		foreach ($bundle_dirs as $bundle)
 		{
+			//dd($bundle);
 			$files['bundles'] = array_merge_recursive($files['bundles'], static::get_files($from, $to, $bundle));
 		}
 		
@@ -37,6 +38,7 @@ class Compare {
 		$app_name= ($bundle) ? $bundle['name'] : 'application';
 
 		$from_files = Dir::read($path.$from);
+		//if (strrpos($path, "application")===false)	dd($bundle['path']);
 		$translated = (Dir::check_exists_or_create($path.$to)) ? Dir::read($path.$to) : array();
 
 		foreach ($from_files as $key => $file)
