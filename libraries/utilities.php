@@ -40,16 +40,19 @@ class Utilities {
 				'name' => $file['name'],
 				'translate' => \Laravel\Input::get('translate')
 			);
-			$text = $file['name'];
+			//die(var_export($file));
+			$status = (isset($file['status'])?' ( '.$file['status'].'% )':'') ;
+			$text = $file['location'] ." > ". $file['name'] . $status;
 		}
 		else
 		{
+			die(var_export($file));
 			$querystring = array(
 				'location' => $file['location']['location'],
 				'name' => $file['name'],
 				'translate' => \Laravel\Input::get('translate')
 			);
-			$text = $file['location']['location'].'/'.$file['name'];
+			$text = $file['location']['location']." > ".$file['name'];
 		}
 
 		$querystring = http_build_query($querystring);

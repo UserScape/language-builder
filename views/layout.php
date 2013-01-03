@@ -18,17 +18,22 @@
 				<div class="span3">
 					<div class="well sidebar-nav">
 
-						<?php if (isset($files)): ?>
+					<?php if (isset($files)): ?>
 
 						<ul class="nav nav-list">
 							<li class="nav-header"><i class="icon-asterisk"></i> <?php echo __('language-builder::builder.missing_translations') ?></li>
-							<?php foreach ($files['app']['missing'] as $file): ?>
-								<?php echo '<li>'.Langbuilder\Utilities::link($file).'</li>'; ?>
-							<?php endforeach ?>
-							<?php if (isset($files['bundles']['missing'])): ?>
-								<?php foreach ($files['bundles']['missing'] as $file): ?>
+							<?php if (isset($files['app']['missing'])): ?>
+								<?php foreach ($files['app']['missing'] as $file): ?>
 									<?php echo '<li>'.Langbuilder\Utilities::link($file).'</li>'; ?>
 								<?php endforeach ?>
+							<?php endif ?>
+
+							<?php if (isset($files['bundles']['missing'])): ?>
+								<?php if (isset($files['bundles']['missing'])): ?>
+									<?php foreach ($files['bundles']['missing'] as $file): ?>
+										<?php echo '<li>'.Langbuilder\Utilities::link($file).'</li>'; ?>
+									<?php endforeach ?>
+								<?php endif ?>
 							<?php endif ?>
 						</ul>
 
@@ -49,7 +54,7 @@
 							<?php endif; ?>
 						</ul>
 
-						<?php endif ?>
+					<?php endif ?>
 
 					</div>
 				</div>
