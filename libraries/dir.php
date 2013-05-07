@@ -14,7 +14,7 @@ class Dir {
 		$from_files = static::read(path('app').'language/'.$from);
 		foreach ($from_files as $file)
 		{
-			static::create(str_replace($from, $to, $file));
+			static::create(preg_replace('|([\/])'.$from.'([\/])|', "$1$to$2", $file));
 		}
 
 		// Now any bundles
@@ -24,7 +24,7 @@ class Dir {
 			$bundle_files = static::read($bundle['path'].$from);
 			foreach ($bundle_files as $file)
 			{
-				static::create(str_replace($from, $to, $file));
+				static::create(preg_replace('|([\/])'.$from.'([\/])|', "$1$to$2", $file));
 			}
 		}
 	}
