@@ -89,7 +89,7 @@ class Utilities {
 				$depth = 1;
 				continue;
 			}
-			$out .= str_repeat("\t", $depth)."'".$key."' => '".addcslashes($value, "'\\/")."',\n";
+			$out .= str_repeat("\t", $depth)."'".$key."' => '".addcslashes($value, "'")."',\n";
 		}
 		return $out;
 	}
